@@ -42,6 +42,10 @@ spec:
             - name: AGENT_POOL
               value: {{ .Values.pipeline.pool | quote }}
             {{- end }}
+            {{- if .Values.pipeline.mtu }}
+            - name: AGENT_MTU_VALUE
+              value: {{ .Values.pipeline.mtu | quote }}
+            {{- end }}
           livenessProbe:
             initialDelaySeconds: 10
             periodSeconds: 60
@@ -54,6 +58,12 @@ spec:
               - ps aux | grep --color=never [A]gent.Listener
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      {{- if .Values.mountDocker }}
+      volumes:
+        - name: dockersock
+          hostPath:
+            path: /var/run/docker.sock
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
