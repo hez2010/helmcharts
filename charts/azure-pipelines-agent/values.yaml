@@ -4,12 +4,13 @@ pipeline:
   pat:
   tenant:
   pool: Default
+  mtu: 1400
 
 replicaCount: 1
 
 image:
-  repository: lambda3/azure-pipelines-agent
-  tag: latest
+  repository: ghcr.io/hez2010/docker-azure-pipelines-agent
+  tag: main
   pullPolicy: Always
 
 imagePullSecrets: []
