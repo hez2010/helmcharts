@@ -56,6 +56,11 @@ spec:
               - /bin/sh
               - -c
               - ps aux | grep --color=never [A]gent.Listener
+          {{- if .Values.mountDocker }}
+          volumeMounts:
+            - name: dockersock
+              mountPath: "/var/run/docker.sock"
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- if .Values.mountDocker }}
